@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <report
+            id="action_reporte_maestro"
+			string="Maestro"
+			model="openacademy.maestro"
+			report_type="qweb-pdf"
+			file="openacademy.reporte_maestro_template"
+			name="openacademy.reporte_maestro_template"
+			menu="False"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <template id="maestro_vista_controller" name="Vista controller maestros" page="True">
+      <xpath expr="." position="inside">
+          <script type="text/javascript" src="/openacademy/static/valida_form_maestro.js"></script>
+      </xpath>
+      <t t-call="website.layout">
+        <div class="oe_structure">
+          <div class="container">
+            <div class="table-responsive">
+              <form action="/maestro/editar" method="post" enctype="multipart/form-data" id="actualizacion_alumno">
+                <table class="table table-dark table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Profesor </th>
+                      <th scope="col">First</th>
+                      <th scope="col">Last</th>
+                      <th scope="col">Handle</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <t t-foreach="datos"  t-as="m">
+                      <tr>
+                        <td>
+                          <span t-field="m.nombre"></span> <span t-field="m.ap_paterno"/> <span t-field="m.ap_materno"/>
+                        </td>
+                        <td>
+                          <span t-field="m.salario"></span>
+                        </td>
+                        <td>
+                          <span t-field="m.numero_empleado"></span>
+                        </td>
+                        <td>
+                          <input type="hidden" name="id" id="id" t-att-value="m.id" />
+                          <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                          <button type="submit" class="btn btn-default btn-primary">
+                            Editar
+                          </button>
+                        </td>
+                      </tr>
+                    </t>
+                  </tbody>
+                </table>
+              
+              </form>
+
+            </div>
+          </div>
+         
+        </div>
+      </t>
+    </template>
+    <!--Este es el template para guardar los cambios de datos d-->
+    <template id="maestro_editar">
+      <t t-call="website.layout">
+        <t t-set="title">Editar alumno</t>
+        <!--t t-foreach="datos" t-as="d_a"-->
+          <form action="/maestro/guardar" method="post" enctype="multipart/form-data" id="actualizar_mestro">
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+            <input type="hidden" name="id" id="id" t-att-value="id" />
+            <div class="container">
+              <table>
+       
+                <tr>
+                  <td><label for="numero empleado">Empleado:</label></td>
+                  <td><input type="text" name="numero_empleado" class="form-control" t-att-value="numero_empleado" required="required" value=""/></td>
+                </tr>
+                <tr>
+                  <td><label for="descripcion">Descripcion:</label></td>
+                  <td><input type="text" name="descripcion" class="form-control" t-att-value="descripcion" required="required"/></td>
+                </tr>
+              </table>
+              <button type="submit" class="btn btn-default btn-primary">
+                Guardar
+              </button>
+            </div>
+          </form>
+        <!--/t-->
+      </t>
+    </template>
+
+ </data>
+</odoo>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="reporte_escuela_maestro">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+
+                <div class="page" style="text-align:center; margin-right:3.5em; margin-left:3.5em;">
+                    <h2>
+                          <p></p>
+                    </h2>
+                    <div>
+                      <table class="table">
+                        <thead  class="thead-light">
+                            <tr>
+                              <th scope="col"  colspan="4" >INFORME DE INGRESO DEL PROFESOR</th>
+
+                            </tr>
+                        </thead>
+                          <tr>
+                            <td class="" colspan="2" rowspan="3">
+                                <span t-field="o.foto" t-field-options='{"widget": "image"}' />
+                            </td>
+                            <td>
+                                <span><b>Nombre: </b></span>
+                            </td>
+                            <td class="" colspan="1">
+                                 <span t-field="o.ap_paterno"/>
+                                 <span t-field="o.ap_materno"/>
+                                 <span t-field="o.nombre"/>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="" colspan="1"> <span>Etiqueta: </span></td>
+                            <td class="" colspan="1"> <span> Valor campo </span>       </td>
+                          </tr>
+                          <tr>
+                           <td>
+                               <span>
+                                  Horas de clase impartidas:
+                               </span>
+                           </td>
+                            <td class="" colspan="1">  <b>Materias que imparte </b> </td>
+                          </tr>
+                          <tr>
+                            <td class="" colspan="4"> <span> Tinene un salario: </span> <span t-field="o.salario"/> 10000</td>
+                          </tr>
+                          <tr>
+                            <td class="" colspan="4"><span t-field="o.horas_clase"/></td>
+                          </tr>
+                          <tr>
+                            <td class="" colspan="4">
+                                <t t-if="o.asignatura_ids">
+									<tr t-foreach="o.asignatura_ids" t-as="a">
+					                    <td><span t-field="a.nombre"/></td>
+
+					                </tr>
+								</t>
+                            </td>
+                          </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </t>
+        </t>
+    </template>
+
+<!--
+    <template id="reporte_maestro_template">
+		<t t-call="report.html_container">
+		    <t t-foreach="docs" t-as="o">
+		        <t t-call="openacademy.report_invoice"/>
+		    </t>
+		</t>
+    </template>
+
+    -->
+
+
+    <template id="reporte_maestro_template">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="openacademy.reporte_escuela_maestro">
+                    <div class="page">
+                        <h2>Report title</h2>
+                        <p>This object's name is <span t-field="o.nombre"/></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

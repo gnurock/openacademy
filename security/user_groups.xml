@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+		<record model="ir.module.category" id="module_management">
+			<field name="name">Gestion de acceso usuarios escuela</field>
+			<field name="description"></field>
+			<field name="sequence">3</field>
+		</record>
+
+	<!-- Creación de grupos -->
+		<record id="administrador_maestro" model="res.groups">
+		    <field name="name">coordinador</field>
+		    <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		 	<field name="users" eval="[(4, ref('base.user_root'))]"/>
+		 	<field name="category_id" ref="openacademy.module_management"/>
+		</record>
+
+	    <record id="administrador_alumno" model="res.groups">
+			<field name="name">alumno</field>
+			<!--field name="implied_ids" eval="[(4, 4)]"/-->
+			<field name="category_id" ref="openacademy.module_management"/>
+	    </record>
+
+		<record id="maestro_ordinario" model="res.groups">
+			<field name="name">maestro_ordinario</field>
+			<!--field name="implied_ids" eval="[(4, 4)]"/-->
+			<field name="category_id" ref="openacademy.module_management"/>
+	    </record>
+
+	</data>
+</odoo>

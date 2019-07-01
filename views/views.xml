@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <!--vista modelo alumno
+          _name = 'openacademy.alumno'
+  numero_matricula = fields.Char(String = "Matricula", required=True,size=10)
+  nombre =fields.Char(String="Nombre",requiered=True,size=100)
+  ap_paterno=fields.Char(String="Apellido Paterno",requiered=True,size=100)
+  ap_materno=fields.Char(String="Apellido Materno",requiered=True,size=100)
+  fecha_nacimiento=fields.Char(String="Fecha de Naciemiento")
+  asignatura=fields.Char(String="Asignatura")
+  grupo=fields.Char(String="Grupo")-->   
+
+
+    
+   <!--view tree from alumno-->
+    <record model="ir.ui.view" id="openacademy.list_alumnos">
+      <field name="name"> openacademy alumno</field>
+      <field name="model">openacademy.alumno</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="numero_matricula"/>
+          <field name="nombre"/>
+          <field name="ap_paterno"/>
+          <field name="ap_materno"/>
+        </tree>
+      </field>
+    </record>
+
+        
+        <record id="only_responsible_can_modify" model="ir.rule">
+            <field name="name">Only Responsible can modify Course</field>
+            <field name="model_id" ref="model_openacademy_course"/>
+            <field name="groups" eval="[(4, ref('openacademy.administrador_maestro'))]"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">
+                ['|', ('responsible_id','=',False),
+                      ('responsible_id','=',user.id)]
+            </field>
+        </record>
+
+
+    <!--view form from alumni-->
+    <record model="ir.ui.view" id="openacademy.form_alumno">
+      <field name="name"> openacademy form alumno</field>
+      <field name="model">openacademy.alumno</field>
+      <field name="arch" type="xml">
+        <form string="Formulario alumno">
+          <sheet>
+            <h1>
+              <label string="Formulario para alumno"/>
+            </h1>
+            <group>
+              <field name="numero_matricula"/>
+              <field name="nombre"/>         
+              <field name="ap_paterno"/>
+              <field name="ap_materno"/>
+            </group>
+            <group>
+              <field name="fecha_nacimiento"/>
+              <!--<field name="asignatura"/>-->
+              <field name="grupo"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="openacademy.list_maestros">
+      <field name="name"  >openacademy maestro</field>
+      <field name="model">openacademy.maestro</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="nombre" groups="openacademy.administrador_maestro"/>
+          <field name="horas_clase"/>
+          <field name="salario"/>
+          <field name="numero_empleado"/>
+        </tree>
+      </field>
+    </record>
+
+    <!--view tipo form maestro-->
+
+    <!--formulario crear nuevo maestro-->
+    <record model="ir.ui.view" id="openacademy.form_maestro">
+      <field name="name">openacademy maestro</field>
+      <field name="model">openacademy.maestro</field>
+      <field name="arch" type="xml">
+        <form string="Form maestro">
+          <sheet>
+                <div class="oe_title">
+                    <button name="imprimir_reporte" class="oe_stat_button" icon="fa-print" type="object"/>
+                    <h1>
+                        <table>
+                            <tr>
+                                <td style="padding-right:10px;" >
+                                    <field name="nombre" placeholder="Nombre"/>
+                                </td>
+                                <td style="padding-right:10px;" >
+                                    <field name="ap_paterno" placeholder="Apellido Paterno"/>
+                                </td>
+                                <td style="padding-right:10px;" >
+                                    <field name="ap_materno" placeholder="Apellido Materno"/>
+                                </td>
+                                <td style="padding-right:10px;">
+                                    <field name="numero_empleado" placeholder="Numero de empleado"/>
+                                </td>
+                                <td>
+                                    <field name="foto" widget="image" class="oe_left oe_avatar"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </h1>
+                </div>
+               <notebook colspan="4">
+                    <page name="personal_information"
+                        string="Información Personal">
+                        <group col="4" colspan="4"
+                            name="personal_detail">
+                                 <field name="horas_clase"/>
+                                  <field name="salario"/>
+                                  <field name="fecha_nacimiento"/>
+                                  <field name="aula"/>
+                                  <field name="nivel_sni"/>
+                                  <field name="sexo"/>
+                        </group>
+                    </page>
+                    <page name="asignaturas" string="Asignaturas">
+                        <field name="asignatura_ids"/>
+                    </page>
+                </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+ 
+    <record model='ir.ui.view' id='openacademy.list_grupo'>
+      <field name='name'>openacademy grupo</field>
+      <field name='model'>openacademy.grupo</field>
+      <field name='arch' type='xml'>
+        <tree string='description'>
+          <field name='grupo_ids'/>
+          <field name="aula"/>
+        </tree>
+      </field>
+    </record>
+
+   <record model='ir.ui.view' id='openacademy.list_asignatura'>
+     <field name='name'>openacademy asigantura</field>
+     <field name='model'>openacademy.asignatura</field>
+     <field name='arch' type='xml'>
+       <tree string='description'>
+           <field name="nombre"/>
+
+       </tree>
+     </field>
+   </record>
+     
+   
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="openacademy.action_window_alumnos">
+      <field name="name">alumnos</field>
+      <field name="res_model">openacademy.alumno</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="openacademy.action_window_maestros">
+      <field name="name"> maestros </field>
+      <field name="res_model">openacademy.maestro</field>
+      <field name="views_type">form</field>
+      <field name="views_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="openacademy.act_window_grupo">
+      <field name="name">grupo</field>
+      <field name="res_model">openacademy.grupo</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+     
+    </record>
+
+    <record model="ir.actions.act_window" id="openacademy.act_window_asignatura">
+      <field name="name">asignatura</field>
+      <field name="res_model">openacademy.asignatura</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>     
+    </record>
+
+    <record model="ir.actions.act_window" id="openacademy.act_window_permisos">
+      <field name="name">seguridad</field>
+      <field name="res_model">demo.access.rights</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+    <!-- mostrar grupostion to th    
+    <record model="ir.actions.server" id="openacademy.action_server">
+      <field name="name">openacademy server</field>
+      <field name="model_id" ref="model_openacademy_openacademy"/>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="openacademy" id="openacademy.menu_root"/>
+    -->
+    <!-- menu categories -->
+    
+    <!--<menuitem name="Menu 1" id="openacademy.menu_1" parent="openacademy.menu_root"/>-->
+    <menuitem name="Alumnos"  id="openacademy.menu_2" parent="openacademy.openacademy_menu" action='openacademy.action_window_alumnos' />
+    <menuitem name="Maestros" id="openacademy.menu_3" parent="openacademy.openacademy_menu" action='openacademy.action_window_maestros' groups="openacademy.administrador_maestro"/>
+
+    <menuitem id="openacademy._menu4" name="Grupo" parent="openacademy.openacademy_menu" action="openacademy.act_window_grupo"/>
+    <menuitem id="openacademy._menu5" name="Asignatura" parent="openacademy.openacademy_menu" action="openacademy.act_window_asignatura" />
+
+    <!-- top level menu: no parent -->
+
+   <!--faltaba declarar la accion--> 
+
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="openacademy.menu_1_list" parent="openacademy.menu_1"
+              action="openacademy.action_window"/>
+    <menuitem name="Server to list" id="openacademy" parent="openacademy.menu_2"
+              action="openacademy.action_server"/>
+    -->
+  </data>
+</odoo>

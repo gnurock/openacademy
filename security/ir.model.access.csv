@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+maestro_admin,maestro admin,model_openacademy_maestro,openacademy.administrador_maestro,1,1,1,1
+alumno_admin,alumno admin,model_openacademy_alumno,openacademy.administrador_alumno,1,1,1,1
+maestro_solo_lectura,maestro,model_openacademy_maestro,maestro_ordinario,1,0,0,0

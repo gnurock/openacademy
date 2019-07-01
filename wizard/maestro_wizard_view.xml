@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="maestro_wizard_view" model="ir.ui.view">
+		<field name="name">openacademy.maestro.wizard.form</field>
+		<field name="model">maestro.wizard</field>
+		<field name="arch" type="xml">
+			<form>
+				<group>
+					<field name="maestro_ids" widget="many2many_list"/>
+					<field name="nombre"/>
+				</group>
+				<footer>
+					<button name="set_maestro_salario" string="Actualizar Nombre" class="oe_right oe_highlight"	type="object"/>
+					<button string="Cancelar" class="oe_right" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+
+	<act_window id="maestro_wizard_action"
+            name="Maestro seleccionados"
+            src_model="openacademy.maestro"
+            res_model="maestro.wizard"
+            view_mode="form"
+            target="new"
+            multi="True"/>
+
+</odoo>
